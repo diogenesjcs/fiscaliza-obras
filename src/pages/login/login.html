@@ -1,0 +1,16 @@
+<ion-header>
+  <ion-navbar hideBackButton *navbar>
+    <ion-title>Home</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <div #map id="map"></div>
+  <ion-row class="bottom-row">
+    <ion-col class="login-button">
+      <button class="loginBtn loginBtn--facebook" ion-button block (click)="doFbLogin()">
+  Entrar com Facebook
+</button>
+    </ion-col>
+  </ion-row>
+</ion-content>
