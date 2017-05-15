@@ -4,7 +4,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { NativeStorage } from '@ionic-native/native-storage';
 import { LoginPage } from '../pages/login/login';
-import { HomePage } from '../pages/home/home';
+import { TabsPage } from '../pages/tabs/tabs';
 
 @Component({
   templateUrl: 'app.html'
@@ -18,7 +18,7 @@ export class MyApp {
       let env = this;
       nativeStorage.getItem('user')
         .then(function(data) {
-          env.nav.push(HomePage);
+          env.nav.push(TabsPage);
           splashScreen.hide();
         }, function(error) {
           env.nav.push(LoginPage);

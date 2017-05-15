@@ -2,7 +2,7 @@ import { Component, ViewChild, ElementRef } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { NativeStorage } from '@ionic-native/native-storage';
 import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
-import { HomePage } from '../home/home';
+import { TabsPage } from '../tabs/tabs';
 
 declare var google;
 
@@ -15,43 +15,53 @@ export class LoginPage {
   @ViewChild('map') mapElement: ElementRef;
   map: any;
 
-  constructor(private fb: Facebook, public navCtrl:NavController,public nativeStorage:NativeStorage) { }
+  constructor(private fb: Facebook, public navCtrl:NavController,public nativeStorage:NativeStorage) {
+
+   }
+   ionViewWillEnter(){
+     let nav = this.navCtrl;
+     this.fb.getLoginStatus().then((res: FacebookLoginResponse) => {
+       if(res.status=="connected")
+         nav.push(TabsPage);
+     });
+   }
 
   ionViewDidLoad() {
     this.loadMap();
+
   }
   doFbLogin(){
     let permissions = new Array();
     let nav = this.navCtrl;
+    let nativeStorage = this.nativeStorage;
     //the permissions your facebook app needs from the user
     permissions = ["public_profile"];
 
+    this.fb.login(['public_profile', 'user_friends', 'email'])
+  .then((res: FacebookLoginResponse) => {
+    console.log('Logged into Facebook!', res);
+    let userId = res.authResponse.userID;
+    let params = new Array();
 
-    this.fb.login(permissions)
-    .then(function(response){
-      let userId = response.authResponse.userID;
-      let params = new Array();
-
-      //Getting name and gender properties
-      this.fb.api("/me?fields=name,gender", params)
-      .then(function(user) {
-        user.picture = "https://graph.facebook.com/" + userId + "/picture?type=large";
-        //now we have the users info, let's save it in the NativeStorage
-        this.nativeStorage.setItem('user',
-        {
-          name: user.name,
-          gender: user.gender,
-          picture: user.picture
-        })
-        .then(function(){
-          nav.push(HomePage);
-        }, function (error) {
-          console.log(error);
-        })
+    //Getting name and gender properties
+    this.fb.api("/me?fields=name,gender", params)
+    .then(function(user) {
+      user.picture = "https://graph.facebook.com/" + userId + "/picture?type=large";
+      nativeStorage.setItem('user',
+      {
+        name: user.name,
+        gender: user.gender,
+        picture: user.picture
       })
-    }, function(error){
-      console.log(error);
-    });
+      .then(function(){
+        nav.push(TabsPage);
+      }, function (error) {
+        console.log(error);
+      })
+    })
+
+  })
+  .catch(e => console.log('Error logging into Facebook', e));
   }
 
   loadMap() {

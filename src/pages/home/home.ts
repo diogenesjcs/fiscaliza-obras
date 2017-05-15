@@ -29,41 +29,6 @@ export class HomePage {
       zoom: 15,
       mapTypeId: google.maps.MapTypeId.ROADMAP,
       disableDefaultUI: true,
-      styles: [
-        {featureType:'all',
-        elementType:'labels',
-        stylers: [
-          { visibility: "off" }
-        ]},
-        { elementType: 'geometry', stylers: [{ color: '#242f3e' }] },
-        { elementType: 'labels.text.stroke', stylers: [{ color: '#242f3e' }] },
-        { elementType: 'labels.text.fill', stylers: [{ color: '#746855' }] },
-        {
-          featureType: 'poi.park',
-          elementType: 'geometry',
-          stylers: [{ color: '#263c3f' }]
-        },
-        {
-          featureType: 'road',
-          elementType: 'geometry',
-          stylers: [{ color: '#38414e' }]
-        },
-        {
-          featureType: 'road',
-          elementType: 'geometry.stroke',
-          stylers: [{ color: '#212a37' }]
-        },
-        {
-          featureType: 'road.highway',
-          elementType: 'geometry.stroke',
-          stylers: [{ color: '#1f2835' }]
-        },
-        {
-          featureType: 'water',
-          elementType: 'geometry',
-          stylers: [{ color: '#17263c' }]
-        }
-      ]
     }
 
     this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
