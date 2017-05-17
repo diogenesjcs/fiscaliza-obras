@@ -9,6 +9,7 @@ import { SettingsPage } from '../pages/settings/settings';
 import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
 import { LoginPage } from '../pages/login/login';
+import { ComplaintPage } from '../pages/complaint/complaint';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -35,12 +36,15 @@ import {ApiService} from './apiService';
     ComplaintsPage,
     SettingsPage,
     HomePage,
-    TabsPage
+    TabsPage,
+     ComplaintPage
   ],
   imports: [
     BrowserModule,
     HttpModule,
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp,{
+       tabsHideOnSubPages:false
+    })
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -49,7 +53,8 @@ import {ApiService} from './apiService';
     ComplaintsPage,
     SettingsPage,
     HomePage,
-    TabsPage
+    TabsPage,
+    ComplaintPage
   ],
   providers: [
     StatusBar,

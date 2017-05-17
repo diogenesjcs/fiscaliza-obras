@@ -1,0 +1,40 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      Nova denúncia
+    </ion-title>
+  </ion-navbar>
+
+</ion-header>
+<ion-content>
+  <ion-list>
+    <ion-item>
+      <ion-label >Impacto no seu deslocamento</ion-label>
+      <ion-range min="0" max="50" [(ngModel)]="intensity" color="danger">
+        <ion-label range-left>0</ion-label>
+        <ion-label range-right>5</ion-label>
+      </ion-range>
+    </ion-item>
+    <ion-item>
+      <ion-label>Obra</ion-label>
+      <ion-select [(ngModel)]="gender">
+        <ion-option *ngFor="let cs of constructionSites" value="{{cs._id}}">{{cs.title}}</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-icon right name="locate"></ion-icon>
+      Sua localização
+    </ion-item>
+    <ion-item>
+      <ion-textarea placeholder="Descreva sua indignação"></ion-textarea>
+    </ion-item>
+    <ion-item>
+
+      <button ion-button full default (click)="confirmComplaint()">
+  Confirmar
+
+    </button>
+
+    </ion-item>
+  </ion-list>
+</ion-content>

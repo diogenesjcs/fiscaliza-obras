@@ -5,8 +5,10 @@
 </ion-header>
 
 <ion-content padding>
-  <div #map id="map" style="height:100%;"></div>
-  <ion-fab right bottom>
-    <button ion-fab><ion-icon name="add"></ion-icon></button>
-  </ion-fab>
+
+  <div #map id="map" style="height:100%;">
+    <ion-fab right bottom class="add-complaint">
+      <button ion-fab (click)="goToAddComplaint()"><ion-icon name="add" ></ion-icon></button>
+    </ion-fab>
+  </div>
 </ion-content>
