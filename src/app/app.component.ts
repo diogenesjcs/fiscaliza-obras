@@ -24,7 +24,6 @@ export class MyApp {
           env.nav.push(LoginPage);
           splashScreen.hide();
         });
-
       statusBar.styleDefault();
     });
   }

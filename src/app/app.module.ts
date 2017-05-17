@@ -14,6 +14,18 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { NativeStorage } from '@ionic-native/native-storage';
 import { Facebook } from '@ionic-native/facebook';
+import { Geolocation } from '@ionic-native/geolocation';
+import {
+  GoogleMaps,
+  GoogleMap,
+  GoogleMapsEvent,
+  LatLng,
+  CameraPosition,
+  MarkerOptions,
+  Marker
+} from '@ionic-native/google-maps';
+
+import {ApiService} from './apiService';
 //import { AuthService } from './../providers/auth-service';
 
 @NgModule({
@@ -44,6 +56,9 @@ import { Facebook } from '@ionic-native/facebook';
     SplashScreen,
     NativeStorage,
     Facebook,
+    ApiService,
+    GoogleMaps,
+    Geolocation,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     //AuthServic
   ]
