@@ -19,6 +19,16 @@ export class ApiService {
       .map(this.extractData)
       .catch(this.handleError);
   }
+  getComplaints(): Observable<Array<any>> {
+    return this.http.get(config.domain + "api/getComplaints")
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
+  getComplaintsByEmail(email): Observable<Array<any>> {
+    return this.http.get(config.domain + "api/getComplaints",email)
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
 
   private extractData(res: Response) {
     let body = res.json();

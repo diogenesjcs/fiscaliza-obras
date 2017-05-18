@@ -10,6 +10,7 @@ import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
 import { LoginPage } from '../pages/login/login';
 import { ComplaintPage } from '../pages/complaint/complaint';
+import { ProfilePage } from '../pages/profile/profile';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -38,7 +39,8 @@ import {ApiService} from './apiService';
     SettingsPage,
     HomePage,
     TabsPage,
-    ComplaintPage
+    ComplaintPage,
+    ProfilePage
   ],
   imports: [
     BrowserModule,
@@ -53,7 +55,8 @@ import {ApiService} from './apiService';
     SettingsPage,
     HomePage,
     TabsPage,
-    ComplaintPage
+    ComplaintPage,
+    ProfilePage
   ],
   providers: [
     StatusBar,

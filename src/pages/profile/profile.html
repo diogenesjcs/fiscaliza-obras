@@ -1,0 +1,20 @@
+<ion-content>
+    <ion-list>
+        <ion-item text-center>
+            <div class="center">
+                <img src="{{picture}}" width="25%">
+            </div>
+
+            <h2>{{name}}</h2>
+            <p>{{email}}</p>
+        </ion-item>
+        <ion-label text-center>Minhas denúncias</ion-label>
+        <ion-item *ngFor="let c of complaints">
+            <ion-chip item-content>
+                <ion-icon name="pin"></ion-icon>
+                <ion-label class="complaint">{{c.constructionSite.title}}</ion-label>
+            </ion-chip>
+        </ion-item>
+    </ion-list>
+
+</ion-content>

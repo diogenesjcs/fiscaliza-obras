@@ -1,0 +1,16 @@
+page-profile {
+    .center {
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+        img {
+            border-radius: 50%;
+        }
+    }
+    .complaint {
+        white-space: nowrap;
+        overflow: hidden !important;
+        text-overflow: ellipsis;
+        width: 20em;
+    }
+}

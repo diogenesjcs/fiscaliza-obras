@@ -27,27 +27,24 @@ export class ComplaintPage {
     public toastCtrl: ToastController, private diagnostic: Diagnostic,
     private geolocation: Geolocation) {
     this.constructionSites = this.navParams.get('cs');
-    this.geolocation.getCurrentPosition().then((resp) => {
-      this.constructionSites = this.applyHaversine(resp, this.constructionSites);
-      this.constructionSites.sort((locationA, locationB) => {
-        return locationA.distance - locationB.distance;
-      });
-    }).catch((error) => {
-      let resp = {
-        lat: -7.9723606,
-        lng: -34.8391074
+    if (navigator.geolocation) {
+      var options = {
+        enableHighAccuracy: true
       };
-      this.constructionSites = this.applyHaversine(resp, this.constructionSites);
+
+      navigator.geolocation.getCurrentPosition(position => {
+        console.info('using navigator');
+        console.info(position.coords.latitude);
+        console.info(position.coords.longitude);
+        this.constructionSites = this.applyHaversine({lat:position.coords.latitude,lng:position.coords.longitude}, this.constructionSites);
       this.constructionSites.sort((locationA, locationB) => {
         return locationA.distance - locationB.distance;
       });
       this.constructionSites = this.constructionSites.slice(0,5);
-      console.log('Error getting location', error);
-    });
-    let watch = this.geolocation.watchPosition();
-    watch.subscribe((data) => {
-
-    });
+      }, error => {
+        console.log(JSON.stringify(error));
+      }, options);
+    }
 
   }
 
@@ -133,7 +130,6 @@ export class ComplaintPage {
             this.nativeStorage.getItem('user')
               .then(function(data) {
                 complaint.email = data.email;
-                console.log(JSON.stringify(complaint));
                 apiService.addComplaint(complaint).subscribe(data => {
                   let alertOk = alertCtrl.create({
                     title: 'Denúncia enviada',

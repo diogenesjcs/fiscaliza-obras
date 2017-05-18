@@ -1,14 +1,17 @@
 <ion-header>
-  <ion-navbar hideBackButton *navbar>
-    <ion-title>Mapa</ion-title>
-  </ion-navbar>
+    <ion-navbar hideBackButton *navbar>
+        <ion-title>Mapa</ion-title>
+    </ion-navbar>
 </ion-header>
 
 <ion-content padding>
 
-  <div #map id="map" style="height:100%;">
-    <ion-fab right bottom class="add-complaint">
-      <button ion-fab (click)="goToAddComplaint()"><ion-icon name="add" ></ion-icon></button>
-    </ion-fab>
-  </div>
+    <div #map id="map" style="height:100%;">
+        <ion-fab left bottom class="add-complaint">
+            <button ion-fab (click)="getLocation()" color="secondary"><ion-icon name="locate" ></ion-icon></button>
+        </ion-fab>
+        <ion-fab right bottom class="add-complaint">
+            <button ion-fab (click)="goToAddComplaint()"><ion-icon name="add" ></ion-icon></button>
+        </ion-fab>
+    </div>
 </ion-content>

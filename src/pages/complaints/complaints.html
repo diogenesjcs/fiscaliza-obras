@@ -1,44 +1,73 @@
+<!--<ion-header>
+    <ion-searchbar [(ngModel)]="myInput" [showCancelButton]="shouldShowCancel" (ionInput)="onInput($event)" (ionCancel)="onCancel($event)">
+    </ion-searchbar>
+</ion-header>-->
+
 <ion-content>
-  <ion-searchbar [(ngModel)]="myInput" [showCancelButton]="shouldShowCancel" (ionInput)="onInput($event)" (ionCancel)="onCancel($event)">
-  </ion-searchbar>
-  <ion-card>
-    <ion-item>
-      <!-- <ion-avatar item-left>
-      <img src="img/marty-avatar.png">
-    </ion-avatar> -->
-      <h2>Marty McFly</h2>
-      <p>November 5, 1955</p>
-    </ion-item>
 
-    <!-- <img src="img/advance-card-bttf.png"> -->
+    <ion-card *ngFor="let c of complaints">
+        <ion-item>
+            <ion-avatar item-left>
+                <img src="assets/pics/profile-placeholder.jpg">
+            </ion-avatar>
+            <div item-content>
 
-    <ion-card-content>
-      <p>Wait a minute. Wait a minute, Doc. Uhhh... Are you telling me that you built a time machine... out of a DeLorean?! Whoa. This is heavy.</p>
-    </ion-card-content>
+                <h2>{{c.createdBy.profile.name}}</h2>
+                <p>
+                    <ion-datetime displayFormat="DD/MM/YYYY" [(ngModel)]="c.createdAt"></ion-datetime>
+                </p>
 
-    <ion-row>
-      <ion-col>
-        <button ion-button icon-left clear small>
-        <ion-icon name="thumbs-up"></ion-icon>
-        <div>12 Likes</div>
+            </div>
+        </ion-item>
+
+        <img src="http://placehold.it/600x400">
+
+        <ion-card-content>
+            <button text-wrap ion-button icon-left clear small color="dark" class="constructionSite-button">
+        <ion-icon name="flag"></ion-icon>
+        <div>{{c.constructionSite.title}}</div>
       </button>
-      </ion-col>
-      <ion-col>
-        <button ion-button icon-left clear small>
-        <ion-icon name="text"></ion-icon>
-        <div>4 Comments</div>
-      </button>
-      </ion-col>
-      <ion-col center text-center>
-        <ion-note>
-          11h ago
-        </ion-note>
-      </ion-col>
-    </ion-row>
+            <p>{{c.description}}</p>
+            <p>
+                <ion-icon name="sad" color="danger" large></ion-icon>
+                {{c.impact}}
+            </p>
 
-  </ion-card>
-  <ion-fab right bottom>
-    <button ion-fab (click)="goToAddComplaint()"><ion-icon name="add"></ion-icon></button>
-  </ion-fab>
+
+        </ion-card-content>
+
+        <ion-row>
+            <ion-col>
+                <button class="complaint-option" block ion-button icon-left clear small>
+          <div>
+            <ion-icon name="person-add"></ion-icon>
+            <div>Apoiar</div>
+          </div>
+        </button>
+            </ion-col>
+            <ion-col>
+                <button class="complaint-option" block ion-button icon-left clear small>
+          <div>
+            <ion-icon name="text"></ion-icon>
+            <div>Comentar</div>
+          </div>
+        </button>
+            </ion-col>
+            <ion-col>
+                <button class="complaint-option" block ion-button icon-left clear small>
+          <div>
+            <ion-icon name="share"></ion-icon>
+            <div>Compartilhar</div>
+          </div>
+        </button>
+            </ion-col>
+        </ion-row>
+
+    </ion-card>
+    <ion-fab right bottom>
+        <button ion-fab (click)="goToAddComplaint()">
+      <ion-icon name="add"></ion-icon>
+    </button>
+    </ion-fab>
 
 </ion-content>
