@@ -25,7 +25,8 @@ import {
   MarkerOptions,
   Marker
 } from '@ionic-native/google-maps';
-
+import { CameraPreview } from '@ionic-native/camera-preview';
+import { Diagnostic } from '@ionic-native/diagnostic';
 import {ApiService} from './apiService';
 //import { AuthService } from './../providers/auth-service';
 
@@ -37,14 +38,12 @@ import {ApiService} from './apiService';
     SettingsPage,
     HomePage,
     TabsPage,
-     ComplaintPage
+    ComplaintPage
   ],
   imports: [
     BrowserModule,
     HttpModule,
-    IonicModule.forRoot(MyApp,{
-       tabsHideOnSubPages:false
-    })
+    IonicModule.forRoot(MyApp)
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -63,9 +62,11 @@ import {ApiService} from './apiService';
     Facebook,
     ApiService,
     GoogleMaps,
+    CameraPreview,
+    Diagnostic,
     Geolocation,
-    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    { provide: ErrorHandler, useClass: IonicErrorHandler },
     //AuthServic
   ]
 })
-export class AppModule {}
+export class AppModule { }

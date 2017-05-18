@@ -3,38 +3,61 @@
     <ion-title>
       Nova denúncia
     </ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="confirmComplaint()">
+        <ion-icon name="checkmark"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
-
 </ion-header>
 <ion-content>
   <ion-list>
     <ion-item>
-      <ion-label >Impacto no seu deslocamento</ion-label>
-      <ion-range min="0" max="50" [(ngModel)]="intensity" color="danger">
-        <ion-label range-left>0</ion-label>
-        <ion-label range-right>5</ion-label>
+      <ion-grid>
+        <ion-row>
+          Imagens
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <button ion-button icon-only color="light" round>
+              <ion-icon name="images"></ion-icon>
+            </button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+    <ion-item>
+      <ion-label>Imacto no seu dia-a-dia</ion-label>
+      <ion-range min="0" max="50" [(ngModel)]="impact" color="danger">
+        <ion-label range-left>
+          <ion-icon name="sad" color="danger" small></ion-icon>
+        </ion-label>
+        <ion-label range-right>
+          <ion-icon name="sad" color="danger" large></ion-icon>
+        </ion-label>
       </ion-range>
     </ion-item>
-    <ion-item>
-      <ion-label>Obra</ion-label>
-      <ion-select [(ngModel)]="gender">
-        <ion-option *ngFor="let cs of constructionSites" value="{{cs._id}}">{{cs.title}}</ion-option>
-      </ion-select>
+    <ion-item class="construction-site-container">
+      <ion-list item-content radio-group [(ngModel)]="constructionSite">
+        <ion-label>Obras próximas</ion-label>
+        <ion-item *ngFor="let cs of constructionSites">
+          <ion-label>
+            <p>
+              <ion-icon name="flag"></ion-icon> {{cs.distance}} km</p>
+            <p class="construction-site-label">{{cs.title}}</p>
+          </ion-label>
+          <ion-radio [value]="cs._id"></ion-radio>
+        </ion-item>
+      </ion-list>
     </ion-item>
     <ion-item>
-      <ion-icon right name="locate"></ion-icon>
-      Sua localização
+      <ion-textarea [(ngModel)]="description" placeholder="Descreva sua indignação"></ion-textarea>
     </ion-item>
     <ion-item>
-      <ion-textarea placeholder="Descreva sua indignação"></ion-textarea>
-    </ion-item>
-    <ion-item>
-
       <button ion-button full default (click)="confirmComplaint()">
-  Confirmar
-
-    </button>
-
+        Enviar
+      </button>
     </ion-item>
   </ion-list>
+
 </ion-content>

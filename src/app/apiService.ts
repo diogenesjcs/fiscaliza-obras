@@ -7,17 +7,24 @@ import * as config from './global';
 
 @Injectable()
 export class ApiService {
-  constructor (private http: Http) {}
+  constructor(private http: Http) { }
   getConstructionSites(): Observable<Array<any>> {
-    return this.http.get(config.domain+"api/getConstructionSites")
-                    .map(this.extractData)
-                    .catch(this.handleError);
+    return this.http.get(config.domain + "api/getConstructionSites")
+      .map(this.extractData)
+      .catch(this.handleError);
   }
+
+  addComplaint(complaint): Observable<any> {
+    return this.http.post(config.domain + "api/addComplaint", complaint)
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
+
   private extractData(res: Response) {
     let body = res.json();
-    return body || { };
+    return body || {};
   }
-  private handleError (error: Response | any) {
+  private handleError(error: Response | any) {
     let errMsg: string;
     if (error instanceof Response) {
       const body = error.json() || '';
@@ -29,4 +36,6 @@ export class ApiService {
     console.error(errMsg);
     return Observable.throw(errMsg);
   }
+
+
 }
