@@ -10,20 +10,16 @@
             <ion-avatar item-left>
                 <img src="assets/pics/profile-placeholder.jpg">
             </ion-avatar>
-            <div item-content>
-
-                <h2>{{c.createdBy.profile.name}}</h2>
-                <p>
-                    <ion-datetime displayFormat="DD/MM/YYYY" [(ngModel)]="c.createdAt"></ion-datetime>
-                </p>
-
+            <div item-content item-left>
+                <p>{{c.createdBy.profile.name}}</p>
             </div>
         </ion-item>
 
         <img src="http://placehold.it/600x400">
 
         <ion-card-content>
-            <button text-wrap ion-button icon-left clear small color="dark" class="constructionSite-button">
+            <ion-datetime text-center disabled displayFormat="DD/MM/YYYY" [(ngModel)]="c.createdAt"></ion-datetime>
+            <button text-wrap ion-button icon-left clear small color="dark" class="constructionSite-button" (click)="goToConstructionSite(c.constructionSite)">
         <ion-icon name="flag"></ion-icon>
         <div>{{c.constructionSite.title}}</div>
       </button>

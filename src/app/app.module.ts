@@ -11,6 +11,7 @@ import { TabsPage } from '../pages/tabs/tabs';
 import { LoginPage } from '../pages/login/login';
 import { ComplaintPage } from '../pages/complaint/complaint';
 import { ProfilePage } from '../pages/profile/profile';
+import { ConstructionSitePage } from '../pages/construction-site/construction-site';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -40,7 +41,8 @@ import {ApiService} from './apiService';
     HomePage,
     TabsPage,
     ComplaintPage,
-    ProfilePage
+    ProfilePage,
+    ConstructionSitePage
   ],
   imports: [
     BrowserModule,
@@ -56,7 +58,8 @@ import {ApiService} from './apiService';
     HomePage,
     TabsPage,
     ComplaintPage,
-    ProfilePage
+    ProfilePage,
+     ConstructionSitePage
   ],
   providers: [
     StatusBar,

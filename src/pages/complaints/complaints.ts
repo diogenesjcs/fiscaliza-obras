@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, ViewController } from 'ionic-angular';
 import { ApiService } from '../../app/apiService';
 import { ComplaintPage } from '../complaint/complaint';
+import { ConstructionSitePage } from '../construction-site/construction-site';
 
 @Component({
   selector: 'page-complaints',
@@ -15,6 +16,9 @@ export class ComplaintsPage {
   }
   goToAddComplaint() {
     this.nav.push(ComplaintPage, { cs: this.constructionSites });
+  }
+  goToConstructionSite(cs){
+    this.nav.push(ConstructionSitePage, { cs: cs });
   }
   ionViewDidEnter() {
     this.apiService.getConstructionSites().subscribe(cs => {

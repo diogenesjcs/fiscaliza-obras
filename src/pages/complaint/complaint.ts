@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Platform, NavController, NavParams } from 'ionic-angular';
-import {ApiService} from '../../app/apiService';
+import { ApiService } from '../../app/apiService';
 import { NativeStorage } from '@ionic-native/native-storage';
 import { AlertController } from 'ionic-angular';
 import { Geolocation } from '@ionic-native/geolocation';
@@ -36,12 +36,21 @@ export class ComplaintPage {
         console.info('using navigator');
         console.info(position.coords.latitude);
         console.info(position.coords.longitude);
-        this.constructionSites = this.applyHaversine({lat:position.coords.latitude,lng:position.coords.longitude}, this.constructionSites);
+        this.constructionSites = this.applyHaversine({ lat: position.coords.latitude, lng: position.coords.longitude }, this.constructionSites);
+        this.constructionSites.sort((locationA, locationB) => {
+          return locationA.distance - locationB.distance;
+        });
+        this.constructionSites = this.constructionSites.slice(0, 5);
+      }, error => {
+        let resp = {
+        lat: -7.9723606,
+        lng: -34.8391074
+      };
+      this.constructionSites = this.applyHaversine(resp, this.constructionSites);
       this.constructionSites.sort((locationA, locationB) => {
         return locationA.distance - locationB.distance;
       });
       this.constructionSites = this.constructionSites.slice(0,5);
-      }, error => {
         console.log(JSON.stringify(error));
       }, options);
     }
@@ -128,7 +137,7 @@ export class ComplaintPage {
             const apiService = this.apiService;
             const navCtrl = this.navCtrl;
             this.nativeStorage.getItem('user')
-              .then(function(data) {
+              .then(function (data) {
                 complaint.email = data.email;
                 apiService.addComplaint(complaint).subscribe(data => {
                   let alertOk = alertCtrl.create({

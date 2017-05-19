@@ -1,0 +1,69 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>
+            Obra
+        </ion-title>
+    </ion-navbar>
+</ion-header>
+<ion-content>
+    <ion-item-divider text-wrap text-center>
+        <h2>{{constructionSite.title}}</h2>
+    </ion-item-divider>
+    <ion-grid>
+        <ion-row text-center>
+            <ion-col>
+                <h6> {{constructionSite.state}} </h6>
+                <div class="chart">
+                    <canvas #doughnutCanvas></canvas>
+                </div>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+    <ion-list>
+        <ion-item>
+            <ion-icon name="alert"></ion-icon>
+            <div item-content>
+                {{constructionSite.complaints}} reclamações
+            </div>
+        </ion-item>
+        <ion-item>
+            <ion-icon name="home"></ion-icon>
+            <div item-content>
+                {{constructionSite.type}}
+            </div>
+        </ion-item>
+        <ion-item>
+            <ion-label icon-left>
+                <ion-icon name="calendar"></ion-icon>Cadastrada em
+            </ion-label>
+            <ion-datetime disabled displayFormat="DD/MM/YYYY" [(ngModel)]="constructionSite.selectionDate"></ion-datetime>
+        </ion-item>
+        <ion-item>
+            <ion-icon name="pin"></ion-icon>
+            <div item-content>
+                {{constructionSite.city}}-{{constructionSite.UF}}
+            </div>
+        </ion-item>
+        <ion-item>
+            <ion-icon name="cash"></ion-icon>
+            <div *ngIf="constructionSite.investment" item-content>
+                R${{constructionSite.investment}}
+            </div>
+            <div *ngIf="!constructionSite.investment" item-content>
+                valor não disponível
+            </div>
+        </ion-item>
+        <ion-item>
+            <ion-icon name="filing"></ion-icon>
+            <div item-content>
+                {{constructionSite.department}}
+            </div>
+        </ion-item>
+        <ion-item>
+            <ion-icon name="hammer"></ion-icon>
+            <div item-content>
+                {{constructionSite.executioner}}
+            </div>
+        </ion-item>
+    </ion-list>
+</ion-content>

@@ -3,6 +3,7 @@ import { NavController } from 'ionic-angular';
 import { ApiService } from '../../app/apiService';
 import { Geolocation } from '@ionic-native/geolocation';
 import { ComplaintPage } from '../complaint/complaint';
+import { ConstructionSitePage } from '../construction-site/construction-site';
 import {
   GoogleMaps,
   GoogleMap,
@@ -10,7 +11,8 @@ import {
   LatLng,
   CameraPosition,
   MarkerOptions,
-  Marker
+  Marker,
+  GoogleMapsAnimation
 } from '@ionic-native/google-maps';
 import { ToastController } from 'ionic-angular';
 
@@ -37,14 +39,19 @@ export class HomePage {
       this.constructionSites.forEach((cs) => {
         let markerOptions: MarkerOptions = {
           position: new LatLng(cs.lat, cs.lng),
-          title: 'Ionic'
+          title: cs.title,
+          icon: { url: 'assets/pics/construction-site.png' },
+          animation: GoogleMapsAnimation.BOUNCE
         };
         this.map.addCircle({
           'center': new LatLng(cs.lat, cs.lng),
           'radius': cs.complaints * 5,
           'fillColor': '#880000'
         });
-        this.map.addMarker(markerOptions);
+        if (cs.complaints > 0) {
+          this.map.addMarker(markerOptions).then((marker: Marker) => {
+          });
+        }
       });
 
 
@@ -75,25 +82,31 @@ export class HomePage {
 
 
   ionViewDidEnter() {
-    this.loadMap();
-    this.map.on(GoogleMapsEvent.MAP_READY).subscribe(() => {
+    if (this.map !== undefined) {
+      this.map.clear();
       this.getConstructionSites();
-      if (navigator.geolocation) {
-        var options = {
-          enableHighAccuracy: true
-        };
+    }
+    else {
+      this.loadMap();
+      this.map.on(GoogleMapsEvent.MAP_READY).subscribe(() => {
+        this.getConstructionSites();
+        if (navigator.geolocation) {
+          var options = {
+            enableHighAccuracy: true
+          };
 
-        navigator.geolocation.getCurrentPosition(position => {
-          console.info('using navigator');
-          console.info(position.coords.latitude);
-          console.info(position.coords.longitude);
-          this.map.setZoom(12);
-          this.map.setCenter(new LatLng(position.coords.latitude, position.coords.longitude));
-        }, error => {
-          console.log(JSON.stringify(error));
-        }, options);
-      }
-    });
+          navigator.geolocation.getCurrentPosition(position => {
+            console.info('using navigator');
+            console.info(position.coords.latitude);
+            console.info(position.coords.longitude);
+            this.map.setZoom(12);
+            this.map.setCenter(new LatLng(position.coords.latitude, position.coords.longitude));
+          }, error => {
+            console.log(JSON.stringify(error));
+          }, options);
+        }
+      });
+    }
 
   }
 
