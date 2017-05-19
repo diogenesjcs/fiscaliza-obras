@@ -8,15 +8,14 @@
     <ion-card *ngFor="let c of complaints">
         <ion-item>
             <ion-avatar item-left>
-                <img src="assets/pics/profile-placeholder.jpg">
+                <img src="{{c.createdBy.profile.picture}}">
             </ion-avatar>
             <div item-content item-left>
                 <p>{{c.createdBy.profile.name}}</p>
             </div>
         </ion-item>
 
-        <img src="http://placehold.it/600x400">
-
+        <img [src]="c.image">
         <ion-card-content>
             <ion-datetime text-center disabled displayFormat="DD/MM/YYYY" [(ngModel)]="c.createdAt"></ion-datetime>
             <button text-wrap ion-button icon-left clear small color="dark" class="constructionSite-button" (click)="goToConstructionSite(c.constructionSite)">

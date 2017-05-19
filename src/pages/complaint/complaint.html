@@ -1,63 +1,59 @@
 <ion-header>
-  <ion-navbar>
-    <ion-title>
-      Nova denúncia
-    </ion-title>
-    <ion-buttons end>
-      <button ion-button icon-only (click)="confirmComplaint()">
+    <ion-navbar>
+        <ion-title>
+            Nova denúncia
+        </ion-title>
+        <ion-buttons end>
+            <button ion-button icon-only (click)="confirmComplaint()">
         <ion-icon name="checkmark"></ion-icon>
       </button>
-    </ion-buttons>
-  </ion-navbar>
+        </ion-buttons>
+    </ion-navbar>
 </ion-header>
 <ion-content>
-  <ion-list>
-    <ion-item>
-      <ion-grid>
-        <ion-row>
-          Imagens
-        </ion-row>
-        <ion-row>
-          <ion-col>
-            <button ion-button icon-only color="light" round>
-              <ion-icon name="images"></ion-icon>
+    <ion-list>
+        <ion-label text-center class="label-custom">Imagens</ion-label>
+        <div item-content class="images-container">
+            <img *ngFor="let t of thumbs" src="{{t}}">
+            <!--<button ion-button icon-only color="light" class="camera-icon" (click)="goToCamera()">
+              <ion-icon name="images" large></ion-icon> <ion-icon name="add" small></ion-icon>
+            </button>-->
+            <button ion-button icon-only color="light" class="camera-icon" (click)="goToCamera()">
+              <ion-icon name="camera" large></ion-icon> <ion-icon name="add" small></ion-icon>
             </button>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    </ion-item>
-    <ion-item>
-      <ion-label>Imacto no seu dia-a-dia</ion-label>
-      <ion-range min="0" max="50" [(ngModel)]="impact" color="danger">
-        <ion-label range-left>
-          <ion-icon name="sad" color="danger" small></ion-icon>
-        </ion-label>
-        <ion-label range-right>
-          <ion-icon name="sad" color="danger" large></ion-icon>
-        </ion-label>
-      </ion-range>
-    </ion-item>
-    <ion-item class="construction-site-container">
-      <ion-list item-content radio-group [(ngModel)]="constructionSite">
-        <ion-label>Obras próximas</ion-label>
-        <ion-item *ngFor="let cs of constructionSites">
-          <ion-label>
-            <p>
-              <ion-icon name="flag"></ion-icon> {{cs.distance}} km</p>
-            <p class="construction-site-label">{{cs.title}}</p>
-          </ion-label>
-          <ion-radio [value]="cs._id"></ion-radio>
+        </div>
+        <ion-item>
+            <ion-label class="label-custom">Impacto no seu dia-a-dia</ion-label>
+            <ion-range min="0" max="50" [(ngModel)]="impact" color="danger">
+                <ion-label range-left>
+                    <ion-icon name="sad" color="danger" small></ion-icon>
+                </ion-label>
+                <ion-label range-right>
+                    <ion-icon name="sad" color="danger" large></ion-icon>
+                </ion-label>
+            </ion-range>
         </ion-item>
-      </ion-list>
-    </ion-item>
-    <ion-item>
-      <ion-textarea [(ngModel)]="description" placeholder="Descreva sua indignação"></ion-textarea>
-    </ion-item>
-    <ion-item>
-      <button ion-button full default (click)="confirmComplaint()">
+        <ion-item class="construction-site-container">
+            <ion-list item-content radio-group [(ngModel)]="constructionSite">
+                <ion-label text-center>Obras próximas</ion-label>
+                <ion-item *ngFor="let cs of constructionSites">
+                    <ion-label>
+                        <p>
+                            <ion-icon name="flag"></ion-icon> {{cs.distance}} km</p>
+                        <p class="construction-site-label">{{cs.title}}</p>
+                    </ion-label>
+                    <ion-radio [value]="cs._id"></ion-radio>
+                </ion-item>
+            </ion-list>
+        </ion-item>
+        <ion-item>
+            <ion-textarea [(ngModel)]="description" placeholder="Descreva sua indignação"></ion-textarea>
+        </ion-item>
+        <ion-item>
+            <button ion-button full default (click)="confirmComplaint()">
         Enviar
       </button>
-    </ion-item>
-  </ion-list>
+        </ion-item>
+    </ion-list>
 
 </ion-content>

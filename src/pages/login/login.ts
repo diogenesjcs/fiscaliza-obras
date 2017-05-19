@@ -1,8 +1,10 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { NativeStorage } from '@ionic-native/native-storage';
+import { ApiService } from '../../app/apiService';
 import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
 import { TabsPage } from '../tabs/tabs';
+import { Diagnostic } from '@ionic-native/diagnostic';
 
 declare var google;
 
@@ -15,51 +17,67 @@ export class LoginPage {
   @ViewChild('map') mapElement: ElementRef;
   map: any;
 
-  constructor(private fb: Facebook, public navCtrl:NavController,public nativeStorage:NativeStorage) {
+  constructor(private fb: Facebook, public navCtrl: NavController, 
+  private apiService: ApiService, public nativeStorage: NativeStorage
+  , private diagnostic: Diagnostic) {
 
-   }
-   ionViewWillEnter(){
-     let nav = this.navCtrl;
-     this.fb.getLoginStatus().then((res: FacebookLoginResponse) => {
-       if(res.status=="connected")
-         nav.push(TabsPage);
-     });
-   }
+  }
+  ionViewWillEnter() {
+    let nav = this.navCtrl;
+    this.fb.getLoginStatus().then((res: FacebookLoginResponse) => {
+      if (res.status == "connected")
+        nav.push(TabsPage);
+    });
+  }
 
   ionViewDidLoad() {
     this.loadMap();
 
   }
-  doFbLogin(){
+  doFbLogin() {
     let nav = this.navCtrl;
     let nativeStorage = this.nativeStorage;
+    let apiService = this.apiService;
+    this.diagnostic.requestLocationAuthorization()
+      .then((state) => {
 
-    this.fb.login(['public_profile', 'user_friends', 'email'])
-  .then((res: FacebookLoginResponse) => {
-    console.log('Logged into Facebook!', res);
-    let userId = res.authResponse.userID;
-    let params = new Array();
+        this.fb.login(['email', 'public_profile'])
+          .then((res: FacebookLoginResponse) => {
+            console.log('Logged into Facebook!', res);
+            let userId = res.authResponse.userID;
+            let params = new Array();
 
-    //Getting name and gender properties
-    this.fb.api("/me?fields=name,gender,email", params)
-    .then(function(user) {
-      user.picture = "https://graph.facebook.com/" + userId + "/picture?type=large";
-      nativeStorage.setItem('user',
-      {
-        name: user.name,
-        gender: user.gender,
-        picture: user.picture,
-        email: user.email
-      })
-      .then(function(){
-        nav.push(TabsPage);
-      }, function (error) {
-        console.log(error);
-      })
-    })
+            //Getting name and gender properties
+            this.fb.api("/me?locale=pt_BR&fields=email,name,gender", ['public_profile', 'email'])
+              .then(function (user) {
+                user.picture = "https://graph.facebook.com/" + userId + "/picture?type=large";
+                console.log(JSON.stringify(user));
+                apiService.addUser({
+                  name: user.name,
+                  gender: user.gender,
+                  picture: user.picture,
+                  email: user.email
+                }).subscribe(data => {
+                  console.log(JSON.stringify(data));
+                  nativeStorage.setItem('user',
+                    {
+                      name: user.name,
+                      gender: user.gender,
+                      picture: user.picture,
+                      email: user.email
+                    })
+                    .then(function () {
+                      nav.setRoot(TabsPage);
+                    }, function (error) {
+                      console.log(error);
+                    })
+                });
 
-  })
-  .catch(e => console.log('Error logging into Facebook', e));
+              })
+
+          })
+          .catch(e => console.log('Error logging into Facebook', e));
+      });
   }
 
   loadMap() {
@@ -72,11 +90,13 @@ export class LoginPage {
       mapTypeId: google.maps.MapTypeId.ROADMAP,
       disableDefaultUI: true,
       styles: [
-        {featureType:'all',
-        elementType:'labels',
-        stylers: [
-          { visibility: "off" }
-        ]},
+        {
+          featureType: 'all',
+          elementType: 'labels',
+          stylers: [
+            { visibility: "off" }
+          ]
+        },
         { elementType: 'geometry', stylers: [{ color: '#242f3e' }] },
         { elementType: 'labels.text.stroke', stylers: [{ color: '#242f3e' }] },
         { elementType: 'labels.text.fill', stylers: [{ color: '#746855' }] },

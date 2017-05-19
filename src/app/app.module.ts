@@ -12,6 +12,7 @@ import { LoginPage } from '../pages/login/login';
 import { ComplaintPage } from '../pages/complaint/complaint';
 import { ProfilePage } from '../pages/profile/profile';
 import { ConstructionSitePage } from '../pages/construction-site/construction-site';
+import { Camera, CameraOptions } from '@ionic-native/camera';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -70,6 +71,7 @@ import {ApiService} from './apiService';
     GoogleMaps,
     CameraPreview,
     Diagnostic,
+    Camera,
     Geolocation,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     //AuthServic

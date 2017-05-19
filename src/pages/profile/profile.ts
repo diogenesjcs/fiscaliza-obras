@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { ApiService } from '../../app/apiService';
 import { NativeStorage } from '@ionic-native/native-storage';
+import { ConstructionSitePage } from '../construction-site/construction-site';
 
 
 @Component({
@@ -16,21 +17,26 @@ export class ProfilePage {
     public email: string;
     public picture: string;
     constructor(private apiService: ApiService, public navCtrl: NavController, private nativeStorage: NativeStorage) {
-        
+
     }
 
-    ionViewWillEnter(){
-        
-        this.nativeStorage.getItem('user')
-  .then(
-    data => {
-        this.name = data.name;
-         this.email = data.email;
-          this.picture = data.picture;
-    },
-    error => console.error(error)
-  );
+    goToConstructionSite(cs) {
+        this.navCtrl.push(ConstructionSitePage, { cs: cs });
     }
+
+    ionViewWillEnter() {
+
+        this.nativeStorage.getItem('user')
+            .then(
+            data => {
+                this.name = data.name;
+                this.email = data.email;
+                this.picture = data.picture;
+            },
+            error => console.error(error)
+            );
+    }
+
 
     ionViewDidEnter() {
         const profileObj = this;
@@ -39,7 +45,7 @@ export class ProfilePage {
                 const user = data;
                 profileObj.apiService.getConstructionSites().subscribe(cs => {
                     profileObj.constructionSites = cs;
-                    profileObj.apiService.getComplaints().subscribe(c => {
+                    profileObj.apiService.getComplaintsByEmail(user.email).subscribe(c => {
                         profileObj.complaints = c.map((complaint) => {
                             complaint.constructionSite = profileObj.constructionSites.find(csData => csData._id == complaint.constructionSite);
                             let impact = "";
@@ -60,8 +66,7 @@ export class ProfilePage {
                                     break;
                             }
                             complaint.impact = impact;
-                            if (user.email === complaint.createdBy.email)
-                                return complaint;
+                            return complaint;
                         });
                     });
                 });

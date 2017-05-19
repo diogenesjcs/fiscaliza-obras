@@ -25,7 +25,12 @@ export class ApiService {
       .catch(this.handleError);
   }
   getComplaintsByEmail(email): Observable<Array<any>> {
-    return this.http.get(config.domain + "api/getComplaints",email)
+    return this.http.get(config.domain + "api/getComplaints?email="+email)
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
+  addUser(user): Observable<any> {
+    return this.http.post(config.domain + "signup", user)
       .map(this.extractData)
       .catch(this.handleError);
   }

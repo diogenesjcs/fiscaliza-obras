@@ -1,13 +1,34 @@
 page-complaint {
-  textarea {
-    max-width: 100%;
-    width: 100%;
-    height: 20vh;
-  }
-  .construction-site-label{
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 20em;
-  }
+    textarea {
+        max-width: 100%;
+        width: 100%;
+        height: 20vh;
+    }
+    .construction-site-label {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 20em;
+    }
+    .label-custom {
+        font-size: 1em;
+    }
+    .images-container {
+        line-height: 25px;
+        margin: 3vh !important;
+        img {
+            float: left;
+            margin: 1vh;
+            border: 1px solid black;
+        }
+        .camera-icon {
+            ion-icon {
+                padding: 1vh !important;
+            }
+            float: left;
+            padding: 0 !important;
+            vertical-align: middle;
+            height:50px;
+        }
+    }
 }

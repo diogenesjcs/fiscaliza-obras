@@ -1,5 +1,5 @@
 import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, Platform } from 'ionic-angular';
 import { ApiService } from '../../app/apiService';
 import { Geolocation } from '@ionic-native/geolocation';
 import { ComplaintPage } from '../complaint/complaint';
@@ -15,6 +15,7 @@ import {
   GoogleMapsAnimation
 } from '@ionic-native/google-maps';
 import { ToastController } from 'ionic-angular';
+import { Diagnostic } from '@ionic-native/diagnostic';
 
 
 declare var google;
@@ -24,13 +25,18 @@ declare var google;
   templateUrl: 'home.html'
 })
 export class HomePage {
+  @ViewChild('map') mapElement: ElementRef;
   map: GoogleMap;
   constructionSites: Array<any>;
   errorMessage: any;
   complaintPage = ComplaintPage;
 
   constructor(private apiService: ApiService, private geolocation: Geolocation,
-    private googleMaps: GoogleMaps, public nav: NavController, public toastCtrl: ToastController) { }
+    private googleMaps: GoogleMaps, public nav: NavController, public toastCtrl: ToastController,
+    public platform: Platform, private diagnostic: Diagnostic) {
+        
+
+     }
 
   getConstructionSites() {
     this.apiService.getConstructionSites().subscribe(data => {
@@ -40,12 +46,12 @@ export class HomePage {
         let markerOptions: MarkerOptions = {
           position: new LatLng(cs.lat, cs.lng),
           title: cs.title,
-          icon: { url: 'assets/pics/construction-site.png' },
+          icon: { url: 'file:///android_asset/www/assets/pics/construction-site.png' },
           animation: GoogleMapsAnimation.BOUNCE
         };
         this.map.addCircle({
           'center': new LatLng(cs.lat, cs.lng),
-          'radius': cs.complaints * 5,
+          'radius': cs.complaints * 10,
           'fillColor': '#880000'
         });
         if (cs.complaints > 0) {
@@ -80,8 +86,7 @@ export class HomePage {
 
   }
 
-
-  ionViewDidEnter() {
+  intMap() {
     if (this.map !== undefined) {
       this.map.clear();
       this.getConstructionSites();
@@ -107,6 +112,27 @@ export class HomePage {
         }
       });
     }
+  }
+
+
+  ionViewDidEnter() {
+    this.diagnostic.requestLocationAuthorization()
+      .then((state) => {
+        console.log(state);
+        if (state == this.diagnostic.permissionStatus.GRANTED) {
+          this.intMap();
+        }
+        else {
+          this.diagnostic.isLocationAuthorized()
+            .then((state2) => {
+              if (state2 == this.diagnostic.permissionStatus.GRANTED) {
+                this.intMap();
+              }
+            }).catch(e => console.error(e));
+        }
+      }).catch(e => console.error(e));
+
+
 
   }
 

@@ -1,21 +1,16 @@
-ion-app._gmaps_cdv_ .nav-decor{
-  background-color: transparent !important;
-}
 page-home {
-  .scroll{
-    height:100%;
-  }
-  .scroll-content {
-    padding:0 !important;
-  }
-  .add-complaint{
-    z-index:9999;
-  }
-
-  #map {
-    width: 100%;
-    height: 100%;
-    z-index:1;
-  }
-
+    .scroll {
+        height: 100%;
+    }
+    .scroll-content {
+        padding: 0 !important;
+    }
+    .add-complaint {
+        z-index: 9999;
+    }
+    #map {
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+    }
 }
