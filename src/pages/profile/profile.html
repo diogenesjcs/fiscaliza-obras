@@ -13,8 +13,9 @@
 
             <ion-chip item-content>
                 <ion-icon name="pin"></ion-icon>
-                <ion-label class="complaint" text-wrap>{{c.constructionSite.title}}</ion-label>
-                <button ion-button clear (click)="goToConstructionSite(c.constructionSite)">
+                <ion-label class="complaint" text-wrap *ngIf="c.constructionSite">{{c.constructionSite.title}}</ion-label>
+                <ion-label class="complaint" text-wrap *ngIf="!c.constructionSite">Obra não listada</ion-label>
+                <button *ngIf="c.constructionSite" ion-button clear (click)="goToConstructionSite(c.constructionSite)">
                     <ion-icon name="arrow-forward"></ion-icon>
                 </button>
             </ion-chip>

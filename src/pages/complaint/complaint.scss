@@ -4,6 +4,9 @@ page-complaint {
         width: 100%;
         height: 20vh;
     }
+    .content {
+        padding: 0 !important;
+    }
     .construction-site-label {
         white-space: nowrap;
         overflow: hidden;
@@ -12,6 +15,11 @@ page-complaint {
     }
     .label-custom {
         font-size: 1em;
+    }
+    .button-custom {
+        color: black;
+        padding: 3vh !important;
+        margin: 0;
     }
     .images-container {
         line-height: 25px;

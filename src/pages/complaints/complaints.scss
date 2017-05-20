@@ -12,4 +12,28 @@ page-complaints {
         height: 12vh;
         line-height: 4vh;
     }
+    .slide-image {
+        display: block;
+        max-height: 50vh;
+        width: auto;
+        height: auto;
+        margin: 0 auto;
+    }
+    .send-option {
+        width: 10% !important;
+        .button-inner {
+            flex-flow: column;
+        }
+    }
+    .comment-area {
+        width: 90% !important;
+    }
+    .comment-button {
+        height: 10vh;
+        line-height: 3vh;
+        .button-inner {
+            flex-flow: column;
+        }
+        background-color: #cccccc;
+    }
 }

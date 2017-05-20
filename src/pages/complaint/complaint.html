@@ -10,7 +10,7 @@
         </ion-buttons>
     </ion-navbar>
 </ion-header>
-<ion-content>
+<ion-content class="content">
     <ion-list>
         <ion-label text-center class="label-custom">Imagens</ion-label>
         <div item-content class="images-container">
@@ -32,10 +32,19 @@
                     <ion-icon name="sad" color="danger" large></ion-icon>
                 </ion-label>
             </ion-range>
-        </ion-item>
+        </ion-item>>
         <ion-item class="construction-site-container">
             <ion-list item-content radio-group [(ngModel)]="constructionSite">
-                <ion-label text-center>Obras próximas</ion-label>
+                <ion-label text-center>Localização</ion-label>
+                <ion-item>
+                    <ion-label>
+                        <p>
+                            <ion-icon name="locate"></ion-icon> Sua localização
+                        </p>
+                        <p class="construction-site-label">{{userAddress}}</p>
+                    </ion-label>
+                    <ion-radio [value]="userId"></ion-radio>
+                </ion-item>
                 <ion-item *ngFor="let cs of constructionSites">
                     <ion-label>
                         <p>

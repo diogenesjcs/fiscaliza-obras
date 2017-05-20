@@ -23,6 +23,11 @@ export class ComplaintPage {
   lat: number;
   lng: number;
   email: string;
+  userLat: number;
+  userLng: number;
+  userAddress: string;
+  usingUserLocation: boolean;
+  userId: string;
 
   constructor(platform: Platform, public navCtrl: NavController, public navParams: NavParams,
     private apiService: ApiService, private nativeStorage: NativeStorage,
@@ -32,35 +37,32 @@ export class ComplaintPage {
     this.thumbs = [];
     this.images = [];
     this.constructionSites = this.navParams.get('cs');
+    this.userId = "user";
+  }
+  ionViewDidEnter() {
     if (navigator.geolocation) {
       var options = {
         enableHighAccuracy: true
       };
-
       navigator.geolocation.getCurrentPosition(position => {
         console.info('using navigator');
         console.info(position.coords.latitude);
         console.info(position.coords.longitude);
-        this.constructionSites = this.applyHaversine({ lat: position.coords.latitude, lng: position.coords.longitude }, this.constructionSites);
-        this.constructionSites.sort((locationA, locationB) => {
-          return locationA.distance - locationB.distance;
+        this.userLat = position.coords.latitude;
+        this.userLng = position.coords.longitude;
+        this.apiService.getMyAddress([position.coords.latitude, position.coords.longitude]).subscribe((data) => {
+          this.userAddress = data.results[0].formatted_address;
         });
-        this.constructionSites = this.constructionSites.slice(0, 5);
       }, error => {
-        let resp = {
-          lat: -7.9723606,
-          lng: -34.8391074
-        };
-        this.constructionSites = this.applyHaversine(resp, this.constructionSites);
-        this.constructionSites.sort((locationA, locationB) => {
-          return locationA.distance - locationB.distance;
+        let lat = -7.9723606;
+        let lng = -34.8391074;
+        this.apiService.getMyAddress([lat, lng]).subscribe((data) => {
+          this.userAddress = data.results[0].formatted_address;
         });
-        this.constructionSites = this.constructionSites.slice(0, 5);
-        console.log(JSON.stringify(error));
       }, options);
     }
 
-  }
+  };
   doImageResize(img, callback, MAX_WIDTH: number = 50, MAX_HEIGHT: number = 50) {
     var canvas = document.createElement("canvas");
 
@@ -131,55 +133,6 @@ export class ComplaintPage {
     image.src = img;
   }
 
-  applyHaversine(usersLocation, locations) {
-
-    locations.map((location) => {
-
-      let placeLocation = {
-        lat: location.lat,
-        lng: location.lng
-      };
-
-      location.distance = this.getDistanceBetweenPoints(
-        usersLocation,
-        placeLocation,
-        'km'
-      ).toFixed(2);
-    });
-
-    return locations;
-  }
-
-  getDistanceBetweenPoints(start, end, units) {
-
-    let earthRadius = {
-      miles: 3958.8,
-      km: 6371
-    };
-
-    let R = earthRadius[units || 'miles'];
-    let lat1 = start.lat;
-    let lon1 = start.lng;
-    let lat2 = end.lat;
-    let lon2 = end.lng;
-
-    let dLat = this.toRad((lat2 - lat1));
-    let dLon = this.toRad((lon2 - lon1));
-    let a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.cos(this.toRad(lat1)) * Math.cos(this.toRad(lat2)) *
-      Math.sin(dLon / 2) *
-      Math.sin(dLon / 2);
-    let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    let d = R * c;
-
-    return d;
-
-  }
-
-  toRad(x) {
-    return x * Math.PI / 180;
-  }
-
   goToGallery() { };
 
   goToCamera() {
@@ -230,7 +183,7 @@ export class ComplaintPage {
                 console.info(position.coords.latitude);
                 console.info(position.coords.longitude);
                 let complaint = {
-                  constructionSiteId: this.constructionSite,
+                  constructionSiteId : this.constructionSite,
                   impact: Math.floor(this.impact / 10),
                   description: this.description,
                   lat: position.coords.latitude,
@@ -260,6 +213,7 @@ export class ComplaintPage {
                   });
 
               }, error => {
+
                 let complaint = {
                   constructionSiteId: this.constructionSite,
                   impact: Math.floor(this.impact / 10),
@@ -275,6 +229,7 @@ export class ComplaintPage {
                 this.nativeStorage.getItem('user')
                   .then(function (data) {
                     complaint.email = data.email;
+                    console.log(JSON.stringify(complaint));
                     apiService.addComplaint(complaint).subscribe(data => {
                       let alertOk = alertCtrl.create({
                         title: 'Denúncia enviada',
@@ -287,17 +242,20 @@ export class ComplaintPage {
                         }]
                       });
                       alertOk.present();
-                    });
-                  });
-              }, options);
-            }
+                    },
+                      (err) => console.log(JSON.stringify(err)),
+                      () => { console.log("error") }
+                    );
+              });
+            }, options);
+  }
 
 
-          }
+}
         }
       ]
     });
-    alert.present();
+alert.present();
   }
 
 }

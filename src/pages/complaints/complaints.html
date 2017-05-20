@@ -14,15 +14,19 @@
                 <p>{{c.createdBy.profile.name}}</p>
             </div>
         </ion-item>
-
-        <img [src]="c.image">
+        <ion-slides *ngIf="c.images.length>0" pager="true">
+            <ion-slide *ngFor="let i of c.images">
+                <img class="slide-image" [src]="i">
+            </ion-slide>
+        </ion-slides>
+        <img class="slide-image" *ngIf="c.images.length==0" src="assets/icon/icon.png" />
         <ion-card-content>
-            <ion-datetime text-center disabled displayFormat="DD/MM/YYYY" [(ngModel)]="c.createdAt"></ion-datetime>
-            <button text-wrap ion-button icon-left clear small color="dark" class="constructionSite-button" (click)="goToConstructionSite(c.constructionSite)">
+            <ion-datetime *ngIf="c.createdAt" text-center disabled displayFormat="DD/MM/YYYY" [(ngModel)]="c.createdAt"></ion-datetime>
+            <button *ngIf="c.constructionSite" text-wrap ion-button icon-left clear small color="dark" class="constructionSite-button" (click)="goToConstructionSite(c.constructionSite)">
         <ion-icon name="flag"></ion-icon>
-        <div>{{c.constructionSite.title}}</div>
+        <div *ngIf="c.constructionSite.title" >{{c.constructionSite.title}}</div>
       </button>
-            <p>{{c.description}}</p>
+            <p *ngIf="c.description">{{c.description}}</p>
             <p>
                 <ion-icon name="sad" color="danger" large></ion-icon>
                 {{c.impact}}
@@ -30,18 +34,27 @@
 
 
         </ion-card-content>
-
+        <ion-row *ngIf="commentArea">
+            <ion-textarea placeholder="Comente" class="comment-area"></ion-textarea>
+            <button class="send-option" block ion-button icon-only clear>
+                    <ion-icon name="send"></ion-icon>
+                </button>
+        </ion-row>
         <ion-row>
             <ion-col>
-                <button class="complaint-option" block ion-button icon-left clear small>
-          <div>
-            <ion-icon name="person-add"></ion-icon>
+                <button class="complaint-option" block ion-button icon-left clear small (click)="support(c)">
+          <div *ngIf="c.supportedBy.indexOf(user._id)<0">
+            <ion-icon name="person-add"> <ion-badge>{{c.supportedBy.length}}</ion-badge></ion-icon>
             <div>Apoiar</div>
+          </div>
+          <div *ngIf="c.supportedBy.indexOf(user._id)>-1">
+            <ion-icon name="people"> <ion-badge>{{c.supportedBy.length}}</ion-badge></ion-icon>
+            <div>Apoiando</div>
           </div>
         </button>
             </ion-col>
             <ion-col>
-                <button class="complaint-option" block ion-button icon-left clear small>
+                <button [ngClass]="!commentArea?'complaint-option': 'comment-button'" block ion-button icon-left clear small (click)="toggleCommentArea()">
           <div>
             <ion-icon name="text"></ion-icon>
             <div>Comentar</div>

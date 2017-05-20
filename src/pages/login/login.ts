@@ -51,7 +51,6 @@ export class LoginPage {
             this.fb.api("/me?locale=pt_BR&fields=email,name,gender", ['public_profile', 'email'])
               .then(function (user) {
                 user.picture = "https://graph.facebook.com/" + userId + "/picture?type=large";
-                console.log(JSON.stringify(user));
                 apiService.addUser({
                   name: user.name,
                   gender: user.gender,
