@@ -36,4 +36,36 @@ page-complaints {
         }
         background-color: #cccccc;
     }
+    .comments {
+        height: 15vh;
+        .comment-profile {
+            font-size: 2vh;
+            word-wrap: break-word !important;
+            opacity: 0.5;
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+        .comment-text {
+            width: 80%;
+            margin: 0 auto;
+            display: block;
+            /* or inline-block */
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .slide-indicator-left {
+            position: absolute;
+            left: 2vh;
+            opacity: 0.5;
+            top: 50%;
+        }
+        .slide-indicator-right {
+            position: absolute;
+            margin: 0 auto;
+            opacity: 0.5;
+            right: 2vh;
+            top: 50%;
+        }
+    }
 }

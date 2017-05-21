@@ -1,3 +1,11 @@
-page-settings{
-
+page-settings {
+    .about {
+        text-align: center;
+        margin: 0 auto !important;
+        vertical-align: middle;
+        img {
+            margin: 0 auto !important;
+            max-height: 5vh;
+        }
+    }
 }

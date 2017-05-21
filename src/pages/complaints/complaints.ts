@@ -1,12 +1,16 @@
-import { Component , ViewChild } from '@angular/core';
-import { NavController, ViewController } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { NavController, ViewController, LoadingController } from 'ionic-angular';
 import { ApiService } from '../../app/apiService';
 import { ComplaintPage } from '../complaint/complaint';
+import { AlertController } from 'ionic-angular';
 import { ConstructionSitePage } from '../construction-site/construction-site';
 import { DomSanitizer } from '@angular/platform-browser';
 import { NativeStorage } from '@ionic-native/native-storage';
 import * as config from '../../app/global';
 import { Slides } from 'ionic-angular';
+import {MomentModule} from 'angular2-moment';
+import * as moment from 'moment';
+import 'moment/min/locales';
 
 @Component({
   selector: 'page-complaints',
@@ -19,17 +23,47 @@ export class ComplaintsPage {
   constructionSitesToAdd: any;
   user: any;
   commentArea: boolean;
+  comment: string;
   constructor(public nav: NavController, private apiService: ApiService,
     public view: ViewController, public _DomSanitizationService: DomSanitizer,
-    public nativeStorage: NativeStorage) {
-        this.commentArea = false;
-
+    public nativeStorage: NativeStorage, public loadingCtrl: LoadingController,
+    private alertCtrl: AlertController) {
+      moment.locale('pt-br');
+    this.commentArea = false;
   }
   goToAddComplaint() {
     this.nav.push(ComplaintPage, { cs: this.constructionSitesToAdd });
   }
   toggleCommentArea() {
     this.commentArea = !this.commentArea;
+  }
+  sendComment(cs) {
+    let loading = this.loadingCtrl.create({
+      content: 'Enviando...',
+      spinner: 'crescent'
+    });
+    loading.present();
+    const comment = {
+      text: this.comment,
+      email: this.user.email,
+      id: cs._id
+    }
+    this.apiService.addComment(comment).subscribe((data) => {
+      loading.dismiss();
+      this.comment = "";
+      this.commentArea = false;
+      let alertOk = this.alertCtrl.create({
+        title: 'Comentário enviado',
+        subTitle: '',
+        buttons: [{
+          text: 'fechar',
+          handler: () => {
+          }
+        }]
+      });
+      alertOk.present();
+    });
+
   }
   goToConstructionSite(cs) {
     this.nav.push(ConstructionSitePage, { cs: cs });
@@ -73,12 +107,12 @@ export class ComplaintsPage {
   support(c) {
     this.apiService.toggleComplaint({ email: this.user.email, id: c._id }).subscribe(co => {
       this.complaints = this.complaints.map((complaint) => {
-        if (complaint.id===co.id) {
+        if (complaint._id === co._id) {
           complaint.supportedBy = co.supportedBy;
+          console.log(JSON.stringify(complaint));
         }
         return complaint;
       });
-      console.log(JSON.stringify(this.complaints));
     });
   }
   applyHaversine(usersLocation, locations) {
@@ -130,6 +164,11 @@ export class ComplaintsPage {
     return x * Math.PI / 180;
   }
   ionViewDidEnter() {
+    let loading = this.loadingCtrl.create({
+      content: 'Carregando...',
+      spinner: 'crescent'
+    });
+    loading.present();
     this.nativeStorage.getItem('user')
       .then(
       data => {
@@ -191,6 +230,7 @@ export class ComplaintsPage {
           complaint.impact = impact;
           return complaint;
         });
+        loading.dismiss();
       });
     });
 

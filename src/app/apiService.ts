@@ -25,6 +25,12 @@ export class ApiService {
       .map(this.extractData)
       .catch(this.handleError);
   }
+
+  addComment(comment): Observable<any>{
+    return this.http.post(config.domain + "api/addComment", comment)
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
   getComplaints(): Observable<Array<any>> {
     return this.http.get(config.domain + "api/getComplaints")
       .map(this.extractData)

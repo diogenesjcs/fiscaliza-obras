@@ -1,8 +1,17 @@
 <ion-content>
     <ion-list>
-        <ion-item>
+        <!--<ion-item>
             <ion-label>Notificações</ion-label>
             <ion-toggle [(ngModel)]="notifications"></ion-toggle>
+        </ion-item>-->
+        <div class="about">
+            <h3><img src="assets/icon/icon.png" />Obra.sil</h3>
+            <p>Obra.sil é um app de fiscalização de obras públicas</p>
+        </div>
+        <ion-item>
+            <button ion-button full default color="light" (click)="openBrowser()">
+          <ion-icon name="link"></ion-icon>
+         Visite nosso site</button>
         </ion-item>
         <ion-item>
             <button ion-button full default color="light" (click)="logout()">

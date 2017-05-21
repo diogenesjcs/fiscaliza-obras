@@ -3,7 +3,7 @@
     <name>oBra.sil</name>
     <description>Fiscalize as obras da sua cidade</description>
     <author email="hi@ionicframework" href="http://ionicframework.com/">Ionic Framework Team</author>
-    <content original-src="index.html" src="http://192.168.254.227:8100" />
+    <content original-src="index.html" src="http://192.168.1.13:8100" />
     <access origin="*" />
     <allow-navigation href="http://ionic.local/*" />
     <allow-navigation href="http://192.168.1.13:8100" />
@@ -96,6 +96,7 @@
     <plugin name="cordova-plugin-googlemaps" spec="^1.4.0">
         <variable name="API_KEY_FOR_ANDROID" value="AIzaSyDf2RyMLovQ0VXCOOoD66yJfKcddVjJbNg" />
     </plugin>
+    <plugin name="cordova-plugin-inappbrowser" spec="^1.7.1" />
     <plugin name="cordova-plugin-nativestorage" spec="^2.2.2" />
     <plugin name="cordova-plugin-splashscreen" spec="^4.0.3" />
     <plugin name="cordova-plugin-statusbar" spec="^2.2.3" />

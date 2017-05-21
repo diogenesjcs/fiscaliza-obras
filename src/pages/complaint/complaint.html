@@ -3,11 +3,6 @@
         <ion-title>
             Nova denúncia
         </ion-title>
-        <ion-buttons end>
-            <button ion-button icon-only (click)="confirmComplaint()">
-        <ion-icon name="checkmark"></ion-icon>
-      </button>
-        </ion-buttons>
     </ion-navbar>
 </ion-header>
 <ion-content class="content">
@@ -32,7 +27,7 @@
                     <ion-icon name="sad" color="danger" large></ion-icon>
                 </ion-label>
             </ion-range>
-        </ion-item>>
+        </ion-item>
         <ion-item class="construction-site-container">
             <ion-list item-content radio-group [(ngModel)]="constructionSite">
                 <ion-label text-center>Localização</ion-label>

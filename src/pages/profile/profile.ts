@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, LoadingController } from 'ionic-angular';
 import { ApiService } from '../../app/apiService';
 import { NativeStorage } from '@ionic-native/native-storage';
 import { ConstructionSitePage } from '../construction-site/construction-site';
@@ -16,7 +16,8 @@ export class ProfilePage {
     public name: string;
     public email: string;
     public picture: string;
-    constructor(private apiService: ApiService, public navCtrl: NavController, private nativeStorage: NativeStorage) {
+    constructor(private apiService: ApiService, public navCtrl: NavController,
+        private nativeStorage: NativeStorage, public loadingCtrl: LoadingController) {
 
     }
 
@@ -39,6 +40,11 @@ export class ProfilePage {
 
 
     ionViewDidEnter() {
+        let loading = this.loadingCtrl.create({
+            content: 'Carregando...',
+            spinner: 'crescent'
+        });
+        loading.present();
         const profileObj = this;
         profileObj.nativeStorage.getItem('user')
             .then(function (data) {
@@ -68,6 +74,7 @@ export class ProfilePage {
                             complaint.impact = impact;
                             return complaint;
                         });
+                        loading.dismiss();
                     });
                 });
             });

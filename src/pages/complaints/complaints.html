@@ -32,11 +32,24 @@
                 {{c.impact}}
             </p>
 
-
+            <ion-row>
+                <ion-slides *ngIf="c.comments.length>0" class="comments">
+                    <ion-slide *ngFor="let co of c.comments">
+                        <ion-item class="comment-profile">
+                            <ion-icon name="chatbubbles"></ion-icon> {{co.user.profile.name}} comentou há {{co.date | amTimeAgo}}
+                        </ion-item>
+                        <p class="comment-text">
+                            {{co.text}}
+                        </p>
+                        <ion-icon class="slide-indicator-left" name="arrow-dropleft"></ion-icon>
+                        <ion-icon class="slide-indicator-right" name="arrow-dropright"></ion-icon>
+                    </ion-slide>
+                </ion-slides>
+            </ion-row>
         </ion-card-content>
         <ion-row *ngIf="commentArea">
-            <ion-textarea placeholder="Comente" class="comment-area"></ion-textarea>
-            <button class="send-option" block ion-button icon-only clear>
+            <ion-textarea [(ngModel)]="comment" placeholder="Comente" class="comment-area"></ion-textarea>
+            <button class="send-option" block ion-button icon-only clear (click)="sendComment(c)">
                     <ion-icon name="send"></ion-icon>
                 </button>
         </ion-row>
@@ -70,6 +83,7 @@
         </button>
             </ion-col>
         </ion-row>
+
 
     </ion-card>
     <ion-fab right bottom>

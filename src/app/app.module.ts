@@ -31,7 +31,8 @@ import {
 import { CameraPreview } from '@ionic-native/camera-preview';
 import { Diagnostic } from '@ionic-native/diagnostic';
 import {ApiService} from './apiService';
-//import { AuthService } from './../providers/auth-service';
+import { InAppBrowser } from '@ionic-native/in-app-browser';
+import {MomentModule} from 'angular2-moment';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import {ApiService} from './apiService';
   imports: [
     BrowserModule,
     HttpModule,
+    MomentModule,
     IonicModule.forRoot(MyApp)
   ],
   bootstrap: [IonicApp],
@@ -72,6 +74,7 @@ import {ApiService} from './apiService';
     CameraPreview,
     Diagnostic,
     Camera,
+    InAppBrowser,
     Geolocation,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     //AuthServic
