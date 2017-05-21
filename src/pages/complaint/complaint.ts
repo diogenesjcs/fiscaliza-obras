@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Platform, NavController, NavParams } from 'ionic-angular';
+import { Platform, NavController, NavParams ,LoadingController } from 'ionic-angular';
 import { ApiService } from '../../app/apiService';
 import { NativeStorage } from '@ionic-native/native-storage';
 import { AlertController } from 'ionic-angular';
@@ -33,7 +33,8 @@ export class ComplaintPage {
     private apiService: ApiService, private nativeStorage: NativeStorage,
     private alertCtrl: AlertController, private cameraPreview: CameraPreview,
     public toastCtrl: ToastController, private diagnostic: Diagnostic,
-    private geolocation: Geolocation, private camera: Camera) {
+    private geolocation: Geolocation, private camera: Camera,
+    public loadingCtrl: LoadingController) {
     this.thumbs = [];
     this.images = [];
     this.constructionSites = this.navParams.get('cs');
@@ -174,6 +175,11 @@ export class ComplaintPage {
         {
           text: 'sim',
           handler: () => {
+            let loading = this.loadingCtrl.create({
+              content: 'Enviando...',
+              spinner: 'crescent'
+            });
+            loading.present();
             if (navigator.geolocation) {
               var options = {
                 enableHighAccuracy: true
@@ -183,7 +189,7 @@ export class ComplaintPage {
                 console.info(position.coords.latitude);
                 console.info(position.coords.longitude);
                 let complaint = {
-                  constructionSiteId : this.constructionSite,
+                  constructionSiteId: this.constructionSite,
                   impact: Math.floor(this.impact / 10),
                   description: this.description,
                   lat: position.coords.latitude,
@@ -204,6 +210,7 @@ export class ComplaintPage {
                         buttons: [{
                           text: 'fechar',
                           handler: () => {
+                            loading.dismiss();
                             navCtrl.pop();
                           }
                         }]
@@ -237,6 +244,7 @@ export class ComplaintPage {
                         buttons: [{
                           text: 'fechar',
                           handler: () => {
+                            loading.dismiss();
                             navCtrl.pop();
                           }
                         }]
@@ -246,16 +254,16 @@ export class ComplaintPage {
                       (err) => console.log(JSON.stringify(err)),
                       () => { console.log("error") }
                     );
-              });
-            }, options);
-  }
+                  });
+              }, options);
+            }
 
 
-}
+          }
         }
       ]
     });
-alert.present();
+    alert.present();
   }
 
 }
