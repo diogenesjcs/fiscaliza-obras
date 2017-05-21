@@ -1,5 +1,7 @@
 <!--<ion-header>
-    <ion-searchbar [(ngModel)]="myInput" [showCancelButton]="shouldShowCancel" (ionInput)="onInput($event)" (ionCancel)="onCancel($event)">
+    <ion-searchbar [(ngModel)]="searchText" placeholder="Pesquisar" 
+    [showCancelButton]="shouldShowCancel" (ionInput)="onInput($event)"
+    (ionCancel)="onCancel($event)">
     </ion-searchbar>
 </ion-header>-->
 
@@ -22,9 +24,10 @@
         <img class="slide-image" *ngIf="c.images.length==0" src="assets/icon/icon.png" />
         <ion-card-content>
             <ion-datetime *ngIf="c.createdAt" text-center disabled displayFormat="DD/MM/YYYY" [(ngModel)]="c.createdAt"></ion-datetime>
-            <button *ngIf="c.constructionSite" text-wrap ion-button icon-left clear small color="dark" class="constructionSite-button" (click)="goToConstructionSite(c.constructionSite)">
+            <button *ngIf="c.constructionSite" text-wrap ion-button icon-left clear large color="dark" class="constructionSite-button"
+                (click)="goToConstructionSite(c.constructionSite)">
         <ion-icon name="flag"></ion-icon>
-        <div *ngIf="c.constructionSite.title" >{{c.constructionSite.title}}</div>
+        <div class="text-button" *ngIf="c.constructionSite.title" text-wrap>{{c.constructionSite.title}}</div>
       </button>
             <p *ngIf="c.description">{{c.description}}</p>
             <p>
@@ -67,7 +70,7 @@
         </button>
             </ion-col>
             <ion-col>
-                <button [ngClass]="!commentArea?'complaint-option': 'comment-button'" block ion-button icon-left clear small (click)="toggleCommentArea()">
+                <button class="complaint-option" block ion-button icon-left clear small (click)="toggleCommentArea(c)">
           <div>
             <ion-icon name="text"></ion-icon>
             <div>Comentar</div>

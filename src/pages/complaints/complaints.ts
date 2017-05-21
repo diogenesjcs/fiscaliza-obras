@@ -8,7 +8,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { NativeStorage } from '@ionic-native/native-storage';
 import * as config from '../../app/global';
 import { Slides } from 'ionic-angular';
-import {MomentModule} from 'angular2-moment';
+import { MomentModule } from 'angular2-moment';
 import * as moment from 'moment';
 import 'moment/min/locales';
 
@@ -24,18 +24,44 @@ export class ComplaintsPage {
   user: any;
   commentArea: boolean;
   comment: string;
+  searchText: any;
   constructor(public nav: NavController, private apiService: ApiService,
     public view: ViewController, public _DomSanitizationService: DomSanitizer,
     public nativeStorage: NativeStorage, public loadingCtrl: LoadingController,
     private alertCtrl: AlertController) {
-      moment.locale('pt-br');
+    moment.locale('pt-br');
     this.commentArea = false;
   }
   goToAddComplaint() {
     this.nav.push(ComplaintPage, { cs: this.constructionSitesToAdd });
   }
-  toggleCommentArea() {
-    this.commentArea = !this.commentArea;
+  toggleCommentArea(c) {
+    let alert = this.alertCtrl.create({
+      title: 'Comentário',
+      inputs: [
+        {
+          name: 'comment',
+          placeholder: 'Faça um comentário'
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          handler: data => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Enviar',
+          handler: data => {
+            this.sendComment(c);
+
+          }
+        }
+      ]
+    });
+    alert.present();
   }
   sendComment(cs) {
     let loading = this.loadingCtrl.create({
@@ -58,6 +84,7 @@ export class ComplaintsPage {
         buttons: [{
           text: 'fechar',
           handler: () => {
+            this.loadComplaints();
           }
         }]
       });
@@ -163,7 +190,8 @@ export class ComplaintsPage {
   toRad(x) {
     return x * Math.PI / 180;
   }
-  ionViewDidEnter() {
+
+  loadComplaints() {
     let loading = this.loadingCtrl.create({
       content: 'Carregando...',
       spinner: 'crescent'
@@ -178,6 +206,7 @@ export class ComplaintsPage {
       },
       error => console.error(error)
       );
+    this.constructionSites = [];
     this.apiService.getConstructionSites().subscribe(cs => {
       this.constructionSites = cs;
       if (navigator.geolocation) {
@@ -230,9 +259,15 @@ export class ComplaintsPage {
           complaint.impact = impact;
           return complaint;
         });
+        this.complaints.sort((c1, c2) => {
+          return moment(new Date(c2.createdAt)).valueOf() - moment(new Date(c1.createdAt)).valueOf();
+        });
         loading.dismiss();
       });
     });
+  }
+  ionViewDidEnter() {
+    this.loadComplaints();
 
 
   }

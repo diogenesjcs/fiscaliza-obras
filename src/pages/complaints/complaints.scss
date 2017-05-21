@@ -1,4 +1,7 @@
 page-complaints {
+    ion-content{
+        background-color:#dddddd !important;
+    }
     .complaint-option {
         height: 10vh;
         line-height: 3vh;
@@ -11,6 +14,10 @@ page-complaints {
     .constructionSite-button {
         height: 12vh;
         line-height: 4vh;
+    }
+    .text-button{
+        word-wrap: break-word !important;
+        font-size: calc(1vh + 1vw) !important;
     }
     .slide-image {
         display: block;
